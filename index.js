@@ -9,7 +9,7 @@ const userRoutes = require('./routes/user')
 const cookieParser = require('cookie-parser')
 const {restrectToLoggedInUserOnly} = require('./middlewares/auth')
 
-const port = process.env.PORT || 5003;
+const port = process.env.PORT || 5003
 
 aap.use(express.json());
 aap.use(express.urlencoded({ extended:false}));
