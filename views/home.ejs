@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortner!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        h3 {
+            color: #333;
+            margin-left: 23px;
+        }
+        form {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            margin-left: 23px;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin-left: 20px;
+            border-radius: 23px;
+            margin-bottom: 10px;
+        }
+        #submit {
+            padding: 10px 20px;
+            background-color: #000;
+            /* margin-radius: */
+            border-radius: 23px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        
+    </style>
+</head>
+<body>
+    <h3>
+        Hey From server!
+    </h3>
+    <% if (locals.id){ %>
+        <p> URL Genrated : http://localhost:5000/url/<%=id%></p>
+    <% }  %>
+    <div>
+        <form method="POSt" action="/url">
+            <label for="">Enter Your Original URL</label>
+            <input 
+            type="text"
+            name="url" 
+            placeholder="https://example.com"
+            />
+            <button  id="submit" type="submit">Genrate !</button>
+        </form>
+    </div>
+    <div>
+        <% if(locals.urls) {%>
+            <table>
+                <thead>
+                    <th>
+                        S. No
+                    </th>
+                    <th>
+                        ShortID
+                    </th>
+                    <th>
+                        Redirect
+                    </th>
+                    <th>
+                        Clicks
+                    </th>
+                </thead>
+                <tbody>
+                    <% urls.forEach((url, index) => { %>
+                        <tr>
+                            <td> <%= index+1 %> </td>
+                            <td> http://localhost:5000/url/<%= url.shortId %>
+                               <button style="
+                                padding: 10px 20px;
+                                background-color: #000;
+                                color: white;
+                                border: none;
+                                border-radius: 12px;
+                                margin-left: 23px;
+                                cursor: pointer;
+                            " onclick="copyToClipboard(this)">Copy</button>
+
+                            </td>
+                            <td><%= url.redirecturl %></td>
+                            <td><%= url.visithistor.length %></td>
+                        </tr>
+                    <% }) %>
+                    
+                </tbody>
+            </table>
+        <% } %>
+    </div>
+    <script>
+        function copyToClipboard(buttonElement) {
+    // Get the parent 'td' element
+    var tdElement = buttonElement.parentElement;
+
+    // Get the innerText of the 'td' element
+    var textToCopy = tdElement.innerText;
+
+    // Create a temporary input element to hold the text
+    var tempInput = document.createElement('input');
+    tempInput.value = textToCopy;
+    document.body.appendChild(tempInput);
+
+    // Select the text and copy it to the clipboard
+    tempInput.select();
+    document.execCommand('copy');
+
+    // Remove the temporary input element
+    document.body.removeChild(tempInput);
+
+    // Change the button text to "Copied!"
+    buttonElement.innerText = "Copied!";
+    setTimeout(function() {
+        buttonElement.innerText = "Copy";
+    }, 3000);
+}
+
+    </script>
+</body>
+</html>
